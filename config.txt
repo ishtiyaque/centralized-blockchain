@@ -1,0 +1,9 @@
+127.0.0.1 2197
+3
+127.0.0.1 2198 10.0
+127.0.0.1 2199 20.0
+127.0.0.1 2190 30.0
+
+server_ip, port
+num of clients
+client_ip, port, init_balance

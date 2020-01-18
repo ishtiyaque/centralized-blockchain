@@ -19,11 +19,19 @@ bool Blockchain::append(Block *blk) {
 }
 
 double Blockchain::get_balance(Clientid id) {
-	return 10.0;
+	double bal = 0.0;
+	for(Block *temp = tail; temp; temp = temp->prev) {
+		if(temp->get_sndr() == id) {
+			bal -= temp->get_amount();
+		} else if(temp->get_rcvr() == id) {
+			bal += temp->get_amount();
+		}
+	}
+	return bal;
 }
 
 bool Blockchain::make_transaction(Clientid sndr, Clientid rcvr, double amount) {
-	if(get_balance(sndr) < amount)
+	if(sndr && get_balance(sndr) < amount)
 		return false;
 	Block *blk = new Block(sndr, rcvr, amount);
 	return append(blk);
