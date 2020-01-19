@@ -9,6 +9,9 @@
 #include<strings.h>
 #include <arpa/inet.h>
 #include <stdlib.h>
+#include<vector>
+#include<queue>
+using namespace std;
 
 typedef unsigned int Clientid;
 

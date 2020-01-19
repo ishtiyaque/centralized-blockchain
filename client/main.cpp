@@ -1,4 +1,9 @@
 #include "utils.h"
+#include "request.h"
+
+
+
+priority_queue <request*, vector<request*>, request_comp> req_q; 
 
 int main(int argc, char *argv[]) {
 	FILE *fp;
@@ -14,4 +19,9 @@ int main(int argc, char *argv[]) {
 		printf("config.txt NOT FOUND\n");
 		exit(1);
 	}
-	fscanf(fp,"%s%d%d",server_ip, &portno, &num_client);
+	//fscanf(fp,"%s%d%d",server_ip, &portno, &num_client);
+	
+
+	
+	return 0;
+}
