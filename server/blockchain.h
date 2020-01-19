@@ -2,7 +2,7 @@
 #define BLOCKCHAIN_H
 
 #include<stdio.h>
-typedef unsigned int Clientid;
+#include "utils.h"
 
 class Block {
 	Clientid sndr;
