@@ -1,21 +1,22 @@
 #ifndef REQUEST_H
 #define REQUEST_H
 
-class request{
+typedef unsigned int Clientid;
+enum message_type{transfer, balance};
+
+
+class client_request{
 public:
-	uint client_id;
-	uint timestamp;
-	uint r_count;
-	request(Clientid cid, uint ts){client_id = cid; timestamp = ts; r_count = 0;};
+	Clientid client_id;
+	unsigned int timestamp;
+	unsigned int r_count;
+	client_request(Clientid cid, unsigned int ts);
 };
 
-struct request_comp {
-	bool operator()(request *r1, request *r2) {
-		if(r1->timestamp == r2->timestamp) {
-			return r1->client_id > r2->client_id;
-		}
-		return r1->timestamp > r2->timestamp;
-	}
+struct client_request_comp {
+	bool operator()(client_request *r1, client_request *r2);
 };
+
+
 
 #endif

@@ -11,11 +11,9 @@
 #include <stdlib.h>
 #include<vector>
 #include<queue>
+#include <pthread.h>
+#include "request.h"
 using namespace std;
-
-typedef unsigned int Clientid;
-
-enum message_type{transfer, balance};
 
 
 #endif

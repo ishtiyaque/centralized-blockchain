@@ -20,6 +20,7 @@ int main() {
 		fscanf(fp,"%s%d%lf",buffer,(int *)buffer, &amount );
 		blk_chn.make_transaction(0, i, amount);
 	}
+	fclose(fp);
 	
 	blk_chn.make_transaction(1,2,5.0);
 	printf("%lf\n",blk_chn.get_balance(1));
