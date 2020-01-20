@@ -5,15 +5,23 @@
 #include<queue>
 #include <pthread.h>
 #include "request.h"
+#include "clock.h"
+#include "sync_priority_queue.h"
+#include "sync_queue.h"
 
-extern priority_queue <client_request*, vector<client_request*>, client_request_comp> req_q; 
+
+extern sync_priority_queue <client_request*, vector<client_request*>, client_request_comp> client_pq;
 extern pthread_t server_handler;
-extern pthread_mutex_t mut_server;
-extern pthread_mutex_t mut_time;
 
 
 extern unsigned int my_id;
-extern unsigned int my_time; 
+extern int num_client;
+extern int *client_sockets;
+extern my_clock clk; 
+
+extern sync_queue<server_message *> server_queue;
+
+extern struct sockaddr_in serv_addr;
 
 
 #endif

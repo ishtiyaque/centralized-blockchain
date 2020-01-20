@@ -7,6 +7,7 @@
 #include <sys/socket.h>
 #include<unistd.h>
 #include<strings.h>
+#include<string.h>
 #include <arpa/inet.h>
 #include <stdlib.h>
 #include<vector>
@@ -15,5 +16,7 @@
 #include "request.h"
 using namespace std;
 
+
+void init(char * filename);
 
 #endif

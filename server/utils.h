@@ -14,5 +14,12 @@ typedef unsigned int Clientid;
 
 enum message_type{transfer, balance};
 
+struct server_message {
+	message_type type;
+	Clientid sndr;
+	Clientid rcvr;
+	double amount;
+};
+
 
 #endif

@@ -32,5 +32,6 @@ public:
 		pthread_mutex_unlock (&lock);
 		return ;
 	}
+	~sync_priority_queue() {pthread_mutex_destroy(&lock);}
 };
 #endif
