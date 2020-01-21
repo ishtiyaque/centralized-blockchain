@@ -1,8 +1,10 @@
 #ifndef SYNC_MAP_H
 #define SYNC_MAP_H
 
-#include <map>
+#include <unordered_map>
 #include <pthread.h>
+
+extern unsigned int num_client;
 
 class sync_map {
 	std::unordered_map<unsigned int, pending_request *> map;
@@ -18,7 +20,7 @@ public:
     }
 	void increment_r(unsigned int t) {
 		pthread_mutex_lock (&lock);
-		pending_request * req = map.get(t);
+		pending_request * req = map[t];
 		req->r_count++;
 		pthread_mutex_unlock (&lock);
 
@@ -26,9 +28,9 @@ public:
 	
 	bool increment_and_check(unsigned int t) {
 		pthread_mutex_lock (&lock);
-		pending_request * req = map.get(t);
+		pending_request * req = map[t];
 		req->r_count++;
-		bool result = (req->r_count == num_client);
+		bool result = ((req->r_count) == num_client);
 		pthread_mutex_unlock (&lock);
 		return result;
 
@@ -36,8 +38,8 @@ public:
 	
 	bool all_reply(unsigned int t) {
 		pthread_mutex_lock (&lock);
-		pending_request * req = map.get(t);
-		bool result = (req->r_count == num_client);
+		pending_request * req = map[t];
+		bool result = ((req->r_count) == num_client);
 		pthread_mutex_unlock (&lock);
 		return result;
 
@@ -45,7 +47,7 @@ public:
 	
 	pending_request * remove(unsigned int t) {
 		pthread_mutex_lock (&lock);
-		pending_request * req = map.get(t);
+		pending_request * req = map[t];
 		map.erase(t);
 		pthread_mutex_unlock(&lock);
 		return req;

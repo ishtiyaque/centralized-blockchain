@@ -58,3 +58,10 @@ void init(char * filename) {
 	return;
 
 }	
+
+int broadcast(const client_message *msg) {
+		for(int i = 0; i < num_client - 1; i++) {
+			write(client_sockets[i], msg,sizeof(client_message));
+		}
+
+}

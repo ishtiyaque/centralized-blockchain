@@ -5,14 +5,17 @@
 #include "sync_queue.h"
 #include "clock.h"
 #include "server_handler.h"
+#include "dispatcher.h"
 
-sync_priority_queue <client_request*, vector<client_request*>, client_request_comp> client_pq;
+sync_priority_queue <client_request*, vector<client_request*>, client_request_comp> request_pq;
 pthread_t server_handler;
+pthread_t dispatcher;
 
 sync_queue<server_message *> server_queue;
 sync_queue<pending_request *> pending_queue;
+sync_map pending_map;
 
-int num_client;
+unsigned int num_client;
 
 struct sockaddr_in serv_addr;
 
@@ -33,6 +36,8 @@ int main(int argc, char *argv[]) {
 	}
 	my_id = atoi(argv[1]);
 	init("../config.txt");
+	
+	pthread_create(&dispatcher, 0, dispatch, 0);	
 	
 	
 	while(1) {
