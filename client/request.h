@@ -31,4 +31,15 @@ struct server_message {
 	double amount;
 };
 
+struct pending_request {
+	message_type type;
+	Clientid sndr;
+	Clientid rcvr;
+	double amount;
+	unsigned int timestamp;
+	unsigned int r_count;
+	pending_request(message_type t, Clientid r, double a);
+};
+
+
 #endif

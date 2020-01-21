@@ -6,7 +6,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 
-template <class T, class Container = deque<T> >
+template <class T, class Container = std::deque <T> >
 class sync_queue {
 	std::queue<T, Container> q;
 	pthread_mutex_t lock;
@@ -38,7 +38,7 @@ public:
 		pthread_mutex_unlock (&lock);
 		return ;
 	}
-	T dequeue() { // Remove the first and return
+	T remove() { // Remove the first and return
 		sem_wait(&sem);
 		pthread_mutex_lock (&lock);
 		T t = q.front();

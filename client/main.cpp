@@ -10,6 +10,8 @@ sync_priority_queue <client_request*, vector<client_request*>, client_request_co
 pthread_t server_handler;
 
 sync_queue<server_message *> server_queue;
+sync_queue<pending_request *> pending_queue;
+
 int num_client;
 
 struct sockaddr_in serv_addr;
@@ -23,7 +25,7 @@ int main(int argc, char *argv[]) {
 	char command[5];
 	Clientid rcvr;
 	double amount;
-	server_message *msg;
+	pending_request *req;
 		
 	if(argc < 2) {
 		printf("Missing Client id. Exiting...\n");
@@ -36,17 +38,13 @@ int main(int argc, char *argv[]) {
 	while(1) {
 		scanf("%s",command);
 		if(!strcmp(command,"BAL")) {
-			msg = new server_message;
-			msg->type = balance;
-			msg->sndr = my_id;
-			server_queue.push(msg);
+			req = new pending_request(balance, 0, 0);
+			pending_queue.push(req);
 		} else if(!strcmp(command,"SEND")) {
-			msg = new server_message;
-			msg->type = transfer;
-			msg->sndr = my_id;
-			scanf("%d",&(msg->rcvr));
-			scanf("%lf",&(msg->amount));
-			server_queue.push(msg);
+			scanf("%d",&rcvr);
+			scanf("%lf",&amount);
+			req = new pending_request(transfer, rcvr, amount);						
+			pending_queue.push(req);
 		} else {
 			printf("Invalid command");
 		}

@@ -10,6 +10,7 @@ public:
 	my_clock(); 
 	unsigned int get_time();
 	void update(unsigned int t); 
+	unsigned int get_incremented_time();
 	~my_clock();
 	
 };

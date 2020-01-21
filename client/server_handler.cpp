@@ -4,7 +4,7 @@ void *handle_server(void *ignore) {
 	double response;
 	int server_sock;
 	while(1) {
-		server_message* req = server_queue.dequeue();
+		server_message* req = server_queue.remove();
 		server_sock = socket(AF_INET, SOCK_STREAM, 0);
 		while (connect(server_sock,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0)
 			continue;

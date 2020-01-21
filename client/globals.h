@@ -10,7 +10,7 @@
 #include "sync_queue.h"
 
 
-extern sync_priority_queue <client_request*, vector<client_request*>, client_request_comp> client_pq;
+extern sync_priority_queue <client_request*, std::vector<client_request*>, client_request_comp> client_pq;
 extern pthread_t server_handler;
 
 
