@@ -12,8 +12,8 @@
 
 
 extern sync_priority_queue <client_request*, std::vector<client_request*>, client_request_comp> request_pq;
-extern pthread_t server_handler;
 
+extern pthread_t server_handler;
 
 extern unsigned int my_id;
 extern unsigned int num_client;
