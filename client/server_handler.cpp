@@ -18,6 +18,8 @@ void *handle_server(void *ignore) {
 		}
 		
 		delete req;
+		
+		release_me();
 			
 	}
 

@@ -19,5 +19,6 @@ using namespace std;
 
 void init(char * filename);
 int broadcast(const client_message *msg);
+void release_me();
 
 #endif

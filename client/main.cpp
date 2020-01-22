@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 	pthread_create(&dispatcher, 0, dispatch, 0);
 	client_handler = new pthread_t[num_client - 1];
 	for(int i = 0; i < num_client - 1; i++) {
-		pthread_create(client_handler + i, 0, handle_client, (void *)client_sockets + i);
+		pthread_create(client_handler + i, 0, handle_client, &(client_sockets[i]));
 	}
 	
 	while(1) {

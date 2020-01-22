@@ -28,9 +28,9 @@ void init(char * filename) {
 		fscanf(fp,"%s%d%lf",ip, &portno, &ignore);
 		addr.sin_family = AF_INET;
     	addr.sin_addr.s_addr = inet_addr(ip);
-    	addr.sin_port = htons(portno);
-		client_sockets[i-1] = socket(AF_INET, SOCK_STREAM, 0);
-		while (connect(client_sockets[i-1],(struct sockaddr *) &addr,sizeof(serv_addr)) < 0)
+    	addr.sin_port = htons(portno);		
+		client_sockets[i-1] = socket(AF_INET, SOCK_STREAM, 0);		
+		while(connect(client_sockets[i-1],(struct sockaddr *) &addr,sizeof(serv_addr)) < 0)
 			continue;
 		printf("Connected with port %d\n",portno);
 
@@ -53,7 +53,12 @@ void init(char * filename) {
 		printf("Received connction\n");
 
 	}	
-	
+	printf("Socket fd:\n");
+	for(int i = 0; i < num_client -1 ; i++) {
+		printf("%d ",client_sockets[i]);
+	}
+	printf("\n*********************************\n");
+	fflush(stdout);
 	fclose(fp);
 	return;
 
@@ -62,6 +67,14 @@ void init(char * filename) {
 int broadcast(const client_message *msg) {
 		for(int i = 0; i < num_client - 1; i++) {
 			write(client_sockets[i], msg,sizeof(client_message));
+			printf("Written to socket %d\n",client_sockets[i]);
 		}
+}
 
+void release_me() {
+	request_pq.pop();
+	client_message msg;
+	msg.type = release;
+	msg.client_id = my_id;
+	msg.msg_timestamp = clk.get_incremented_time();
 }
