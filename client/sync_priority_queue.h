@@ -4,6 +4,8 @@
 #include<vector>
 #include<queue>
 #include <pthread.h>
+#include "request.h"
+extern unsigned int my_id;
 
 template<
     class T,
@@ -32,6 +34,19 @@ public:
 		pthread_mutex_unlock (&lock);
 		return ;
 	}
+
+	void * pop_if_top(unsigned int ts) {
+		pthread_mutex_lock (&lock);
+		client_request* req = (client_request*) q.top();
+		if((req->client_id == my_id) && (req->timestamp == ts)) {
+			q.pop();
+		} else {
+			req = NULL;
+		}
+		pthread_mutex_unlock (&lock);
+		return (void *) req;
+	}
+
 	~sync_priority_queue() {pthread_mutex_destroy(&lock);}
 };
 #endif

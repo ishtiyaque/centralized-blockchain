@@ -6,5 +6,6 @@
 
 
 void *handle_client(void *sock) ;
+server_message *get_server_msg(pending_request *pen_req);
 
 #endif
