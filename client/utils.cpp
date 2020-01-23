@@ -74,9 +74,10 @@ int broadcast(const client_message *msg) {
 }
 
 void release_me() {
-	request_pq.pop();
+	//request_pq.pop();
 	client_message msg;
 	msg.type = release;
 	msg.client_id = my_id;
 	msg.msg_timestamp = clk.get_incremented_time();
+	broadcast(&msg);
 }

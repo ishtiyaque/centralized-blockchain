@@ -21,7 +21,7 @@ void *handle_server(void *ignore) {
 		delete req;
 		
 		release_me();
-		sem_post(&sem_condition);
+		//sem_post(&sem_condition);
 			
 	}
 
