@@ -22,17 +22,16 @@ bool sync_map::increment_and_check(unsigned int t) {
 	if(map.find(t) == map.end()) return false;
 	pending_request * req = map[t];
 	req->r_count++;
-	bool result = ((req->r_count) == num_client);
+	bool result = ((req->r_count) == (num_client-1));
 	pthread_mutex_unlock (&lock);
 	return result;
-
 }
 
 bool sync_map::all_reply(unsigned int t) {
 	pthread_mutex_lock (&lock);
 	if(map.find(t) == map.end()) return false;
 	pending_request * req = map[t];
-	bool result = ((req->r_count) == num_client);
+	bool result = ((req->r_count) == (num_client-1));	
 	pthread_mutex_unlock (&lock);
 	return result;
 

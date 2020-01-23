@@ -2,6 +2,7 @@
 #include "blockchain.h"
 
 int main() {
+	unsigned int my_time = 0;
 	int i;
 	int server_sock, client_sock, portno, num_client;
 	double amount;
@@ -10,6 +11,7 @@ int main() {
 	FILE *fp;
 	Blockchain blk_chn;
 	server_message from_client;
+	server_response to_client;
 
 	if(!(fp = fopen("../config.txt", "r"))) {
 		printf("config.txt NOT FOUND\n");
@@ -55,13 +57,17 @@ int main() {
 		}
 		read(client_sock,&from_client,sizeof(server_message));
 		printf("Received message %d %d %d\n",from_client.type, from_client.sndr, from_client.rcvr);
+		my_time = MAX(my_time, from_client.timestamp);
+		++my_time;
 		if(from_client.type == balance) {
 			amount = blk_chn.get_balance(from_client.sndr);
 		}else if(from_client.type == transfer) {
 			amount = blk_chn.make_transaction(from_client.sndr, from_client.rcvr, from_client.amount);
 		}
 		//printf("%d %d %d %lf\n",from_client.type, from_client.sndr, from_client.rcvr, from_client.amount);
-		write(client_sock,&amount,sizeof(double));
+		to_client.timestamp = ++my_time;
+		to_client.amount = amount;
+		write(client_sock,&to_client,sizeof(server_response));
 		close(client_sock);
 	}
 	close(server_sock);

@@ -25,13 +25,13 @@ public:
 
 	T top() {
 		pthread_mutex_lock (&lock);
-		printf("Removing from pq\n");
 		T t = q.top();
 		pthread_mutex_unlock (&lock);
 		return t;
 	}
 	void pop() {
 		pthread_mutex_lock (&lock);
+		printf("Removing from pq\n");
 		q.pop();
 		pthread_mutex_unlock (&lock);
 		return ;
