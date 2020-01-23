@@ -43,7 +43,7 @@ int main() {
 		exit(1);
 
 	}
-
+	printf("Server started...\n");
 	listen(server_sock, 10);
 	//printf("%d\n",balance);
 
