@@ -19,6 +19,7 @@ public:
 	bool all_reply(unsigned int t);
 	pending_request * remove(unsigned int t);
 	~sync_map();
+
 };
 
 

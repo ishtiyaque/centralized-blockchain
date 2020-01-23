@@ -33,9 +33,11 @@ void *handle_client(void *sock) {
 			write(*socket, &response, sizeof(response));
 		}else if(msg.type == reply) {
 			pending_map.increment_r(msg.ref_timestamp);
+			printf("Got REPLY from client %d\n",msg.client_id);
 			sem_post(&sem_condition);
 		}else if(msg.type == release) {
 			request_pq.pop();
+			printf("Got RELEASE from client %d\n",msg.client_id);
 			sem_post(&sem_condition);
 		}
 	}
