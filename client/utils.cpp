@@ -9,6 +9,8 @@ void init(char * filename) {
 	double ignore;
 	
 	struct sockaddr_in addr;
+	
+	sem_init(&sem_condition, 0, 0);
 
 	if(!(fp = fopen(filename, "r"))) {
 		printf("config.txt NOT FOUND\n");
@@ -30,7 +32,7 @@ void init(char * filename) {
     	addr.sin_addr.s_addr = inet_addr(ip);
     	addr.sin_port = htons(portno);		
 		client_sockets[i-1] = socket(AF_INET, SOCK_STREAM, 0);		
-		while(connect(client_sockets[i-1],(struct sockaddr *) &addr,sizeof(serv_addr)) < 0)
+		while(connect(client_sockets[i-1],(struct sockaddr *) &addr,sizeof(addr)) < 0)
 			continue;
 		printf("Connected with port %d\n",portno);
 

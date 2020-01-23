@@ -15,6 +15,8 @@ extern sync_priority_queue <client_request*, std::vector<client_request*>, clien
 
 extern pthread_t server_handler;
 
+extern sem_t sem_condition;
+
 extern unsigned int my_id;
 extern unsigned int num_client;
 extern int *client_sockets;

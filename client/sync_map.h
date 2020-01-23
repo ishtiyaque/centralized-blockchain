@@ -28,6 +28,7 @@ public:
 	
 	bool increment_and_check(unsigned int t) {
 		pthread_mutex_lock (&lock);
+		if(map.find(t) == map.end()) return false;
 		pending_request * req = map[t];
 		req->r_count++;
 		bool result = ((req->r_count) == num_client);
@@ -38,6 +39,7 @@ public:
 	
 	bool all_reply(unsigned int t) {
 		pthread_mutex_lock (&lock);
+		if(map.find(t) == map.end()) return false;
 		pending_request * req = map[t];
 		bool result = ((req->r_count) == num_client);
 		pthread_mutex_unlock (&lock);

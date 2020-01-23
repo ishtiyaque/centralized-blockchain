@@ -8,6 +8,7 @@ void *handle_server(void *ignore) {
 		server_sock = socket(AF_INET, SOCK_STREAM, 0);
 		while (connect(server_sock,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0)
 			continue;
+		printf("Server connected at socket %d\n",server_sock);
 		write(server_sock,req,sizeof(server_message));
 		read(server_sock,&response,sizeof(double));
 		close(server_sock);
@@ -20,6 +21,7 @@ void *handle_server(void *ignore) {
 		delete req;
 		
 		release_me();
+		sem_post(&sem_condition);
 			
 	}
 

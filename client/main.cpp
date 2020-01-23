@@ -7,11 +7,16 @@
 #include "server_handler.h"
 #include "dispatcher.h"
 #include "client_receiver.h"
+#include "condition_handler.h"
 
 sync_priority_queue <client_request*, vector<client_request*>, client_request_comp> request_pq;
+
 pthread_t server_handler;
 pthread_t dispatcher;
+pthread_t condition_handler;
 pthread_t *client_handler;
+
+sem_t sem_condition;
 
 sync_queue<server_message *> server_queue;
 sync_queue<pending_request *> pending_queue;
@@ -40,6 +45,8 @@ int main(int argc, char *argv[]) {
 	init("../config.txt");
 	
 	pthread_create(&dispatcher, 0, dispatch, 0);
+	pthread_create(&condition_handler, 0, handle_condition, 0);
+	
 	client_handler = new pthread_t[num_client - 1];
 	for(int i = 0; i < num_client - 1; i++) {
 		pthread_create(client_handler + i, 0, handle_client, &(client_sockets[i]));

@@ -43,6 +43,7 @@ int main() {
 	while(1) {
 		client_sock = accept(server_sock,0,0);
 		read(client_sock,&from_client,sizeof(server_message));
+		printf("Received message %d %d %d\n",from_client.type, from_client.sndr, from_client.rcvr);
 		if(from_client.type == balance) {
 			amount = blk_chn.get_balance(from_client.sndr);
 		}else if(from_client.type == transfer) {
