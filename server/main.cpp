@@ -29,19 +29,30 @@ int main() {
 
 
 	//blk_chn.print();
-	server_sock = socket(AF_INET, SOCK_STREAM, 0);
+	if((server_sock = socket(AF_INET, SOCK_STREAM, 0)) < 0){
+		printf("Error opening server socket. Exiting...\n");
+		exit(1);
+	}
 	bzero((char *) &addr, sizeof(addr));
 	addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = inet_addr(server_ip);
     addr.sin_port = htons(portno);
 
-	bind(server_sock, (struct sockaddr *) &addr, sizeof(addr));
+	if((bind(server_sock, (struct sockaddr *) &addr, sizeof(addr))) < 0) {
+		printf("Error binding server socket. Exiting...\n");
+		exit(1);
+
+	}
 
 	listen(server_sock, 10);
 	//printf("%d\n",balance);
 
 	while(1) {
-		client_sock = accept(server_sock,0,0);
+		
+		if((client_sock = accept(server_sock,0,0)) < 0) {
+			printf("Error accepting client. Exiting...\n");
+			exit(1);
+		}
 		read(client_sock,&from_client,sizeof(server_message));
 		printf("Received message %d %d %d\n",from_client.type, from_client.sndr, from_client.rcvr);
 		if(from_client.type == balance) {
@@ -54,7 +65,6 @@ int main() {
 		close(client_sock);
 	}
 	close(server_sock);
-    //socklen_t clilen;
 
 	return 0;
 }
