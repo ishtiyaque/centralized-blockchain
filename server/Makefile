@@ -1,6 +1,6 @@
 CXX = g++
 
-server : blockchain.o main.o
+server.out : blockchain.o main.o
 	$(CXX) -o server blockchain.o main.o
 
 %.o: %.cpp %.h utils.h
@@ -8,4 +8,4 @@ server : blockchain.o main.o
 .PHONY: clean
 
 clean:
-	rm -f server *.o
+	rm -f server.out *.o

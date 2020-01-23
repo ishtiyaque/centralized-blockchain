@@ -1,7 +1,7 @@
 CXX = g++
 LIBS = -lpthread
 
-client : client_receiver.o clock.o condition_handler.o dispatcher.o main.o request.o server_handler.o sync_map.o sync_priority_queue.o sync_queue.o utils.o
+client.out : client_receiver.o clock.o condition_handler.o dispatcher.o main.o request.o server_handler.o sync_map.o sync_priority_queue.o sync_queue.o utils.o
 	$(CXX) -o client *.o $(LIBS)
 
 sync_priority_queue.o : sync_priority_queue.h
@@ -11,4 +11,4 @@ sync_queue.o : sync_queue.h
 .PHONY: clean
 
 clean:
-	rm -f client *.o
+	rm -f client.out *.o
