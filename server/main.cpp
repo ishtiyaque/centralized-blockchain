@@ -27,7 +27,7 @@ int main() {
 
 
 	//blk_chn.print();
-	if((server_sock = socket(AF_INET, SOCK_STREAM, 0)) < 0){
+	if((server_sock = socket(AF_INET, PROTOCOL, 0)) < 0){
 		printf("Error opening server socket. Exiting...\n");
 		exit(1);
 	}
@@ -59,7 +59,7 @@ int main() {
 			printf("Received Balance query from Client %d. Current time: %d\n",from_client.sndr, my_time);
 			amount = blk_chn.get_balance(from_client.sndr);
 		}else if(from_client.type == transfer) {
-			printf("Received Transfer query amounting $%lf from Client %d to Client %d. Current time: %d\n",from_client.amount, from_client.sndr, from_client.sndr, my_time);
+			printf("Received Transfer query amounting $%lf from Client %d to Client %d. Current time: %d\n",from_client.amount, from_client.sndr, from_client.rcvr, my_time);
 			amount = blk_chn.make_transaction(from_client.sndr, from_client.rcvr, from_client.amount);
 			if(amount) {
 				printf("Transaction Successful.\n");

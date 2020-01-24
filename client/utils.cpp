@@ -2,7 +2,7 @@
 #include "globals.h"
 #include "server_handler.h"
 
-void init(char * filename) {
+void init(const char * filename) {
 	FILE *fp;
 	char ip[16];
 	int i, portno, my_sock;
@@ -32,7 +32,7 @@ void init(char * filename) {
 		addr.sin_family = AF_INET;
     	addr.sin_addr.s_addr = inet_addr(ip);
     	addr.sin_port = htons(portno);		
-		client_sockets[i-1] = socket(AF_INET, SOCK_STREAM, 0);		
+		client_sockets[i-1] = socket(AF_INET, PROTOCOL, 0);		
 		while(connect(client_sockets[i-1],(struct sockaddr *) &addr,sizeof(addr)) < 0)
 			continue;
 		//printf("Connected with port %d\n",portno);
@@ -41,7 +41,7 @@ void init(char * filename) {
 	
 	bzero((char *) &addr, sizeof(addr));
 	fscanf(fp,"%s%d%lf",ip, &portno, &ignore);
-	my_sock = socket(AF_INET, SOCK_STREAM, 0);
+	my_sock = socket(AF_INET, PROTOCOL, 0);
 	
 	addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = inet_addr(ip);

@@ -3,6 +3,14 @@
 
 #define SLEEP_TIME 3
 
+//#define UDP
+
+#ifdef UDP
+	#define PROTOCOL SOCK_DGRAM
+#else
+	#define PROTOCOL SOCK_STREAM
+#endif
+
 #include <stdio.h>
 //#include <sys/types.h>
 #include <netinet/in.h>
@@ -20,7 +28,7 @@
 using namespace std;
 
 
-void init(char *filename);
+void init(const char *filename);
 int broadcast(const client_message *msg);
 void release_me();
 void my_sleep();

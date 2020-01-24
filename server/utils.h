@@ -12,6 +12,14 @@
 
 #define MAX(a,b) (((a) > (b)) ? (a) : (b))
 
+//#define UDP
+
+#ifdef UDP
+	#define PROTOCOL SOCK_DGRAM
+#else
+	#define PROTOCOL SOCK_STREAM
+#endif
+
 typedef unsigned int Clientid;
 
 enum message_type{transfer, balance};
