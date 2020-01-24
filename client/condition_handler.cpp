@@ -7,19 +7,16 @@ void *handle_condition(void *ignore) {
 	server_message * ser_msg ;
 	while(1) {
 		sem_wait(&sem_condition);
-		printf("condition handler woke up\n");
-		printf("Queue size %d\n",request_pq.size());
+		//printf("condition handler woke up\n");
+		//printf("Queue size %d\n",request_pq.size());
 		cl_req = request_pq.top();
 		if((cl_req->client_id == my_id) && (pending_map.all_reply(cl_req->timestamp))) {
-			printf("COndition found true\n");
 			pen_req = pending_map.remove(cl_req->timestamp);
 			request_pq.pop();
 			ser_msg = get_server_msg(pen_req);
 			delete pen_req;
 			delete cl_req;
 			server_queue.push(ser_msg);
-		}else {
-			printf("COndition found false\n");
 		}
 
 

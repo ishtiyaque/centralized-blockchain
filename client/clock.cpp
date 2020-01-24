@@ -11,12 +11,12 @@ unsigned int my_clock::get_incremented_time() {
 	pthread_mutex_unlock (&lock);
 	return t;
 }
-void my_clock::update(unsigned int t) { 
+unsigned int my_clock::update(unsigned int t) { 
 	pthread_mutex_lock (&lock);
 	time = t > time ? t : time ;
 	++time;
 	pthread_mutex_unlock (&lock);
-	return;
+	return time;
 }
 	
 my_clock::~my_clock() {

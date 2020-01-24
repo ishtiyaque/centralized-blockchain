@@ -4,7 +4,7 @@
 #include<vector>
 #include<queue>
 #include <pthread.h>
-#include<stdio.h>
+
 extern unsigned int my_id;
 
 template<
@@ -19,7 +19,7 @@ public:
 	void push(T elem) {
 		pthread_mutex_lock (&lock);
 		q.push(elem);
-		printf("Inserting into pq\n");
+		//printf("Inserting into pq\n");
 		pthread_mutex_unlock (&lock);
 	}
 
@@ -31,7 +31,7 @@ public:
 	}
 	void pop() {
 		pthread_mutex_lock (&lock);
-		printf("Removing from pq\n");
+		//printf("Removing from pq\n");
 		q.pop();
 		pthread_mutex_unlock (&lock);
 		return ;

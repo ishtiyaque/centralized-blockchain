@@ -11,6 +11,7 @@ void init(char * filename) {
 	struct sockaddr_in addr;
 	
 	sem_init(&sem_condition, 0, 0);
+	srand (time(NULL));
 
 	if(!(fp = fopen(filename, "r"))) {
 		printf("config.txt NOT FOUND\n");
@@ -34,7 +35,7 @@ void init(char * filename) {
 		client_sockets[i-1] = socket(AF_INET, SOCK_STREAM, 0);		
 		while(connect(client_sockets[i-1],(struct sockaddr *) &addr,sizeof(addr)) < 0)
 			continue;
-		printf("Connected with port %d\n",portno);
+		//printf("Connected with port %d\n",portno);
 
 	}
 	
@@ -52,32 +53,47 @@ void init(char * filename) {
 	
 	for(i = my_id + 1; i <= num_client; i++) {
 		client_sockets[i - 2] = accept(my_sock,0,0);
-		printf("Received connction\n");
-
+		//printf("Received connction\n");
 	}	
-	printf("Socket fd:\n");
+	/*printf("Socket fd:\n");
 	for(int i = 0; i < num_client -1 ; i++) {
 		printf("%d ",client_sockets[i]);
 	}
 	printf("\n*********************************\n");
-	fflush(stdout);
+	*/
+	//printf("Established connection with all other clients.\n");
+	
+	//fflush(stdout);
 	fclose(fp);
 	return;
 
 }	
 
-int broadcast(const client_message *msg) {
+int broadcast(const client_message *msg) {	
+		if(msg->type == release) {
+			printf("Sending RELEASE to every other client. Current time : %d\n", msg->msg_timestamp);
+			if(request_pq.size() > 0) {
+				client_request *temp = request_pq.top();
+				printf("Top of Q: <%d %d>\n",temp->timestamp, temp->client_id);
+			}
+		}else if(msg->type == request) {
+			printf("Sending REQUEST<%d, %d> to every other client\n", msg->msg_timestamp, msg->client_id);
+		}
+		my_sleep();
+
 		for(int i = 0; i < num_client - 1; i++) {
 			write(client_sockets[i], msg,sizeof(client_message));
-			printf("Written to socket %d\n",client_sockets[i]);
 		}
 }
 
 void release_me() {
-	//request_pq.pop();
 	client_message msg;
 	msg.type = release;
 	msg.client_id = my_id;
 	msg.msg_timestamp = clk.get_incremented_time();
 	broadcast(&msg);
+}
+
+void my_sleep() {
+	sleep(2 + (rand() % SLEEP_TIME));
 }

@@ -1,6 +1,8 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#define SLEEP_TIME 3
+
 #include <stdio.h>
 //#include <sys/types.h>
 #include <netinet/in.h>
@@ -13,12 +15,13 @@
 #include<vector>
 #include<queue>
 #include <pthread.h>
+#include<time.h>
 #include "request.h"
 using namespace std;
 
 
-void init(char * filename);
+void init(char *filename);
 int broadcast(const client_message *msg);
 void release_me();
-
+void my_sleep();
 #endif

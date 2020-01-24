@@ -25,10 +25,6 @@ int main() {
 	}
 	fclose(fp);
 
-	//blk_chn.make_transaction(1,2,5.0);
-	//printf("%lf\n",blk_chn.get_balance(1));
-	//printf("%lf\n",blk_chn.get_balance(2));
-
 
 	//blk_chn.print();
 	if((server_sock = socket(AF_INET, SOCK_STREAM, 0)) < 0){
@@ -45,7 +41,7 @@ int main() {
 		exit(1);
 
 	}
-	printf("Server started...\n");
+	printf("Started Server...\n");
 	listen(server_sock, 10);
 	//printf("%d\n",balance);
 
@@ -56,17 +52,25 @@ int main() {
 			exit(1);
 		}
 		read(client_sock,&from_client,sizeof(server_message));
-		printf("Received message %d %d %d\n",from_client.type, from_client.sndr, from_client.rcvr);
+			
 		my_time = MAX(my_time, from_client.timestamp);
 		++my_time;
 		if(from_client.type == balance) {
+			printf("Received Balance query from Client %d. Current time: %d\n",from_client.sndr, my_time);
 			amount = blk_chn.get_balance(from_client.sndr);
 		}else if(from_client.type == transfer) {
+			printf("Received Transfer query amounting $%lf from Client %d to Client %d. Current time: %d\n",from_client.amount, from_client.sndr, from_client.sndr, my_time);
 			amount = blk_chn.make_transaction(from_client.sndr, from_client.rcvr, from_client.amount);
+			if(amount) {
+				printf("Transaction Successful.\n");
+			}else {
+				printf("Transaction failed. Insufficient balance.\n");
+			}
 		}
-		//printf("%d %d %d %lf\n",from_client.type, from_client.sndr, from_client.rcvr, from_client.amount);
 		to_client.timestamp = ++my_time;
 		to_client.amount = amount;
+		printf("Sending respose to Client %d. Current time: %d\n", from_client.sndr, my_time);
+		sleep(3);
 		write(client_sock,&to_client,sizeof(server_response));
 		close(client_sock);
 	}

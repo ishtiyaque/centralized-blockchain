@@ -42,6 +42,7 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 	my_id = atoi(argv[1]);
+	printf("Started Client %d\n",my_id);
 	init("../config.txt");
 	
 	pthread_create(&dispatcher, 0, dispatch, 0);

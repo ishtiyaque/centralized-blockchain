@@ -9,7 +9,6 @@ class client_request{
 public:
 	Clientid client_id;
 	unsigned int timestamp;
-	unsigned int r_count;
 	client_request(Clientid cid, unsigned int ts);
 };
 
